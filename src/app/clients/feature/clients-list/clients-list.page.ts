@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Client, ClientsService } from '../../data-access/clients.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-clients-list',
@@ -7,15 +9,12 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClientsListPage implements OnInit {
-  clients = [
-    "Newton",
-    "Rita",
-    "Katia",
-    "Maria",
-    "Kleber",
-    "Sabrina"
-  ]
+  public clients$!: Observable<Client[]>;
 
-  constructor() {}
-  ngOnInit(): void {}
+  constructor(private clientsService: ClientsService) {}
+
+  ngOnInit(): void {
+    this.clients$ = this.clientsService.getClients();
+    this.clientsService.init();
+  }
 }
