@@ -3,7 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'clients',
+    path: '',
     loadChildren: () => import('./clients/feature/clients-shell/clients-shell.module').then((m) => m.ClientsShellModule)
   }
 ];
