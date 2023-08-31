@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, delay } from "rxjs";
+import { BehaviorSubject, Observable, delay, shareReplay, tap } from "rxjs";
 
 export type Client = {
   name: string;
@@ -10,20 +10,20 @@ export type Client = {
   providedIn: 'root'
 })
 export class ClientsService {
-  private clients$ = new BehaviorSubject<Client[]>([]);
+  clients!: Observable<Client[]>;
 
   constructor(private http: HttpClient) {}
 
-  public init(): void {
-    this.http
-      .get<Client[]>('/assets/clients-data.json')
-      .pipe(delay(800))
-      .subscribe((response) => {
-        this.clients$.next(response);
-      });
-  }
+  public init() {
+    if (!this.clients) {
+      this.clients = this.http
+        .get<Client[]>('/assets/clients-data.json')
+        .pipe(delay(800))
+        .pipe(
+          shareReplay(1)
+        );
+    }
 
-  public getClients(): Observable<Client[]> {
-    return this.clients$;
+    return this.clients;
   }
 }

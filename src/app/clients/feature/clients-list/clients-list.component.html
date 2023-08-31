@@ -1,10 +1,11 @@
-<ng-container *ngIf="clients$ | async as clients">
-  <ul *ngIf="clients.length; else loading">
+<ng-container *ngIf="{clients: clients$ | async, clientsError: clientsError$ | async} as vm">
+  <ul *ngIf="!vm.clientsError && vm.clients as clients; else loading">
     <li *ngFor="let client of clients">
       <a routerLink="{{ client.name }}">{{ client.name }}</a>
     </li>
   </ul>
+  <p *ngIf="vm.clientsError as error">{{ error.message }}</p>
   <ng-template #loading>
-    <h3>Loading...</h3>
+    <h3 *ngIf="!vm.clientsError">Loading...</h3>
   </ng-template>
 </ng-container>

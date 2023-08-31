@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Client, ClientsService } from '../../data-access/clients.service';
-import { Observable } from 'rxjs';
+import { Observable, catchError, ignoreElements, of } from 'rxjs';
 
 @Component({
   selector: 'app-clients-list',
@@ -8,13 +8,12 @@ import { Observable } from 'rxjs';
   styleUrls: ['./clients-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ClientsListPage implements OnInit {
-  public clients$!: Observable<Client[]>;
+export class ClientsListPage {
+  public clients$ = this.clientsService.init();
+  public clientsError$ = this.clients$.pipe(
+    ignoreElements(),
+    catchError((err) => of(err))
+  );
 
   constructor(private clientsService: ClientsService) {}
-
-  ngOnInit(): void {
-    this.clients$ = this.clientsService.getClients();
-    this.clientsService.init();
-  }
 }
