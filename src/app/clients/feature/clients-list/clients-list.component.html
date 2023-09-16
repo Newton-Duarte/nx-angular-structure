@@ -1,4 +1,5 @@
 <ng-container *ngIf="{clients: clients$ | async, clientsError: clientsError$ | async} as vm">
+  <div class="mat-headline-5">Clients List</div>
   <ul *ngIf="!vm.clientsError && vm.clients as clients; else loading">
     <li *ngFor="let client of clients">
       <a routerLink="{{ client.name }}">{{ client.name }}</a>

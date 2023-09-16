@@ -1,1 +1,17 @@
 <router-outlet></router-outlet>
+<button mat-stroked-button>Basic</button>
+<button mat-flat-button>Basic</button>
+<button mat-button matTooltip="Eita preula" matTooltipClass="meu-tooltip">hover me</button>
+<h1 class="text-3xl font-bold z">
+  Hello world!
+</h1>
+
+<div>
+  <mat-form-field>
+    <mat-label>Choose a date</mat-label>
+    <input matInput [matDatepicker]="picker">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div>
